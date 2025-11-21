@@ -6,6 +6,15 @@ headers = {"User-Agent": "my-scraper/0.1"}
 resp = requests.get(url, headers=headers)
 html = resp.text
 
+try:
+    resp = requests.get(url, headers=headers, timeout=10)
+    resp.raise_for_status()
+    html = resp.text
+except Exception as e:
+    print("API ERROR!:", e)
+    exit(1)
+
+
 soup = BeautifulSoup(html, "html.parser")
 
 strong_tags = soup.find_all("strong")
